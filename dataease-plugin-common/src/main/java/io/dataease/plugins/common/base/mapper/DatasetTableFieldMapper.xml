@@ -16,6 +16,7 @@
     <result column="ext_field" jdbcType="INTEGER" property="extField" />
     <result column="checked" jdbcType="BIT" property="checked" />
     <result column="column_index" jdbcType="INTEGER" property="columnIndex" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
     <result column="last_sync_time" jdbcType="BIGINT" property="lastSyncTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -77,8 +78,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, table_id, origin_name, `name`, dataease_name, group_type, `type`, `size`, de_type, 
-    de_type_format, de_extract_type, ext_field, `checked`, column_index, last_sync_time
+    id, table_id, origin_name, `name`, dataease_name, group_type, `type`, `size`, de_type,
+    de_type_format, de_extract_type, ext_field, `checked`, column_index, `path`, last_sync_time
   </sql>
   <select id="selectByExample" parameterType="io.dataease.plugins.common.base.domain.DatasetTableFieldExample" resultMap="BaseResultMap">
     select
@@ -95,7 +96,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from dataset_table_field
     where id = #{id,jdbcType=VARCHAR}
@@ -111,18 +112,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="io.dataease.plugins.common.base.domain.DatasetTableField">
-    insert into dataset_table_field (id, table_id, origin_name, 
-      `name`, dataease_name, group_type, 
-      `type`, `size`, de_type, 
-      de_type_format, de_extract_type, ext_field, 
-      `checked`, column_index, last_sync_time
-      )
-    values (#{id,jdbcType=VARCHAR}, #{tableId,jdbcType=VARCHAR}, #{originName,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{dataeaseName,jdbcType=VARCHAR}, #{groupType,jdbcType=VARCHAR}, 
-      #{type,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}, #{deType,jdbcType=INTEGER}, 
-      #{deTypeFormat,jdbcType=INTEGER}, #{deExtractType,jdbcType=INTEGER}, #{extField,jdbcType=INTEGER}, 
-      #{checked,jdbcType=BIT}, #{columnIndex,jdbcType=INTEGER}, #{lastSyncTime,jdbcType=BIGINT}
-      )
+    insert into dataset_table_field (id, table_id, origin_name,
+    `name`, dataease_name, group_type,
+    `type`, `size`, de_type,
+    de_type_format, de_extract_type, ext_field,
+    `checked`, column_index, `path`,
+    last_sync_time)
+    values (#{id,jdbcType=VARCHAR}, #{tableId,jdbcType=VARCHAR}, #{originName,jdbcType=VARCHAR},
+    #{name,jdbcType=VARCHAR}, #{dataeaseName,jdbcType=VARCHAR}, #{groupType,jdbcType=VARCHAR},
+    #{type,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}, #{deType,jdbcType=INTEGER},
+    #{deTypeFormat,jdbcType=INTEGER}, #{deExtractType,jdbcType=INTEGER}, #{extField,jdbcType=INTEGER},
+    #{checked,jdbcType=BIT}, #{columnIndex,jdbcType=INTEGER}, #{path,jdbcType=VARCHAR},
+    #{lastSyncTime,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="io.dataease.plugins.common.base.domain.DatasetTableField">
     insert into dataset_table_field
@@ -168,6 +169,9 @@
       </if>
       <if test="columnIndex != null">
         column_index,
+      </if>
+      <if test="path != null">
+        `path`,
       </if>
       <if test="lastSyncTime != null">
         last_sync_time,
@@ -215,6 +219,9 @@
       </if>
       <if test="columnIndex != null">
         #{columnIndex,jdbcType=INTEGER},
+      </if>
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
       </if>
       <if test="lastSyncTime != null">
         #{lastSyncTime,jdbcType=BIGINT},
@@ -272,6 +279,9 @@
       <if test="record.columnIndex != null">
         column_index = #{record.columnIndex,jdbcType=INTEGER},
       </if>
+      <if test="record.path != null">
+        `path` = #{record.path,jdbcType=VARCHAR},
+      </if>
       <if test="record.lastSyncTime != null">
         last_sync_time = #{record.lastSyncTime,jdbcType=BIGINT},
       </if>
@@ -283,20 +293,21 @@
   <update id="updateByExample" parameterType="map">
     update dataset_table_field
     set id = #{record.id,jdbcType=VARCHAR},
-      table_id = #{record.tableId,jdbcType=VARCHAR},
-      origin_name = #{record.originName,jdbcType=VARCHAR},
-      `name` = #{record.name,jdbcType=VARCHAR},
-      dataease_name = #{record.dataeaseName,jdbcType=VARCHAR},
-      group_type = #{record.groupType,jdbcType=VARCHAR},
-      `type` = #{record.type,jdbcType=VARCHAR},
-      `size` = #{record.size,jdbcType=INTEGER},
-      de_type = #{record.deType,jdbcType=INTEGER},
-      de_type_format = #{record.deTypeFormat,jdbcType=INTEGER},
-      de_extract_type = #{record.deExtractType,jdbcType=INTEGER},
-      ext_field = #{record.extField,jdbcType=INTEGER},
-      `checked` = #{record.checked,jdbcType=BIT},
-      column_index = #{record.columnIndex,jdbcType=INTEGER},
-      last_sync_time = #{record.lastSyncTime,jdbcType=BIGINT}
+    table_id = #{record.tableId,jdbcType=VARCHAR},
+    origin_name = #{record.originName,jdbcType=VARCHAR},
+    `name` = #{record.name,jdbcType=VARCHAR},
+    dataease_name = #{record.dataeaseName,jdbcType=VARCHAR},
+    group_type = #{record.groupType,jdbcType=VARCHAR},
+    `type` = #{record.type,jdbcType=VARCHAR},
+    `size` = #{record.size,jdbcType=INTEGER},
+    de_type = #{record.deType,jdbcType=INTEGER},
+    de_type_format = #{record.deTypeFormat,jdbcType=INTEGER},
+    de_extract_type = #{record.deExtractType,jdbcType=INTEGER},
+    ext_field = #{record.extField,jdbcType=INTEGER},
+    `checked` = #{record.checked,jdbcType=BIT},
+    column_index = #{record.columnIndex,jdbcType=INTEGER},
+    `path` = #{record.path,jdbcType=VARCHAR},
+    last_sync_time = #{record.lastSyncTime,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -343,6 +354,9 @@
       <if test="columnIndex != null">
         column_index = #{columnIndex,jdbcType=INTEGER},
       </if>
+      <if test="path != null">
+        `path` = #{path,jdbcType=VARCHAR},
+      </if>
       <if test="lastSyncTime != null">
         last_sync_time = #{lastSyncTime,jdbcType=BIGINT},
       </if>
@@ -352,19 +366,20 @@
   <update id="updateByPrimaryKey" parameterType="io.dataease.plugins.common.base.domain.DatasetTableField">
     update dataset_table_field
     set table_id = #{tableId,jdbcType=VARCHAR},
-      origin_name = #{originName,jdbcType=VARCHAR},
-      `name` = #{name,jdbcType=VARCHAR},
-      dataease_name = #{dataeaseName,jdbcType=VARCHAR},
-      group_type = #{groupType,jdbcType=VARCHAR},
-      `type` = #{type,jdbcType=VARCHAR},
-      `size` = #{size,jdbcType=INTEGER},
-      de_type = #{deType,jdbcType=INTEGER},
-      de_type_format = #{deTypeFormat,jdbcType=INTEGER},
-      de_extract_type = #{deExtractType,jdbcType=INTEGER},
-      ext_field = #{extField,jdbcType=INTEGER},
-      `checked` = #{checked,jdbcType=BIT},
-      column_index = #{columnIndex,jdbcType=INTEGER},
-      last_sync_time = #{lastSyncTime,jdbcType=BIGINT}
+    origin_name = #{originName,jdbcType=VARCHAR},
+    `name` = #{name,jdbcType=VARCHAR},
+    dataease_name = #{dataeaseName,jdbcType=VARCHAR},
+    group_type = #{groupType,jdbcType=VARCHAR},
+    `type` = #{type,jdbcType=VARCHAR},
+    `size` = #{size,jdbcType=INTEGER},
+    de_type = #{deType,jdbcType=INTEGER},
+    de_type_format = #{deTypeFormat,jdbcType=INTEGER},
+    de_extract_type = #{deExtractType,jdbcType=INTEGER},
+    ext_field = #{extField,jdbcType=INTEGER},
+    `checked` = #{checked,jdbcType=BIT},
+    column_index = #{columnIndex,jdbcType=INTEGER},
+    `path` = #{path,jdbcType=VARCHAR},
+    last_sync_time = #{lastSyncTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

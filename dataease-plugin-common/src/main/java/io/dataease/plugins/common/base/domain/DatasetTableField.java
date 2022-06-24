@@ -43,6 +43,7 @@ public class DatasetTableField implements Serializable {
     private Integer columnIndex;
     @ApiModelProperty("上次同步时间")
     private Long lastSyncTime;
-
+    @ApiModelProperty("API字段的树路径")
+    private String path;
     private static final long serialVersionUID = 1L;
 }
